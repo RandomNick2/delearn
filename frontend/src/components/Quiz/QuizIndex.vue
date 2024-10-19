@@ -38,13 +38,13 @@ const setCurrentQuestion = (questionId: number) => {
 
 <style lang="scss" scoped>
 .indexs {
-  @apply mt-5 min-w-full pb-3 flex flex-col gap-4 flex-wrap overflow-x-auto;
+  @apply mt-5 min-w-full pb-3 flex flex-col gap-4 flex-wrap overflow-x-auto overflow-y-hidden;
   max-height: 45px;
 
   > div {
     @apply flex items-center justify-center;
     width: 40px;
-    height: 45px;
+    height: 50px;
     background: rgba(37, 37, 50, 0.6);
     border-radius: 4px;
 
