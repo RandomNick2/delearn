@@ -1,0 +1,60 @@
+services:
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/docker/frontend
+
+  backend:
+    build: ./backend
+    ports:
+      - '3000'
+    depends_on:
+      - postgres
+    env_file:
+      - ./backend/.env
+    restart: always
+    networks:
+      - custom
+    volumes:
+      - ./backend:/docker/backend
+
+  bot:
+    build: ./bot
+    restart: always
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: delearn
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5444:5432'
+    restart: always
+    networks:
+      - custom
+      
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./docker/app.conf:/etc/nginx/conf.d/app.conf
+    restart: always
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  custom:
+    driver: bridge
