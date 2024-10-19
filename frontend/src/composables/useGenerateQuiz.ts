@@ -1,5 +1,6 @@
 import { quizApi } from '@/api/quiz.api'
 import { useQuizStore } from '@/stores/quiz.store'
+import { account } from '@kolirt/vue-web3-auth'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -12,7 +13,7 @@ export const useGenerateQuiz = () => {
 
   const generateQuiz = async () => {
     try {
-      if (topic.value.trim() == '') return
+      if (topic.value.trim() == '' || !account.connected) return
       isLoading.value = true
       setQuiz(await quizApi.generate(topic.value))
       await push({ name: 'quiz' })
