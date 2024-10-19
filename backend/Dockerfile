@@ -15,24 +15,5 @@ COPY . .
 # Генерируем Prisma Client
 RUN yarn prisma generate
 
-# Сборка проекта
-RUN yarn build
 
-# Stage 2: Запуск приложения
-FROM node:lts-alpine
-
-WORKDIR /docker/backend
-
-# Копируем только необходимые файлы для работы приложения
-COPY --from=build /docker/backend/dist ./dist
-COPY --from=build /docker/backend/package.json ./
-COPY --from=build /docker/backend/yarn.lock ./
-
-# Устанавливаем только производственные зависимости
-RUN yarn install --production=true
-
-# Открываем порт
-EXPOSE 3000
-
-# Запускаем приложение
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:dev"]

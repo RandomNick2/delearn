@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ethers } from 'ethers';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import OpenAI from 'openai';
 import { PrismaService } from '../prisma/prisma.service';
 import type { IGeneratedQuiz } from './aiprompts/generatedQuiz';
@@ -23,6 +24,9 @@ export class QuizsService {
   ) {
     this.openai = new OpenAI({
       apiKey: configService.get('OPENAI_KEY'),
+      httpAgent: new HttpsProxyAgent(
+        'http://GXjt8nK3:ghhPdd4C@5.42.209.120:64270',
+      ),
     });
 
     this.provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
