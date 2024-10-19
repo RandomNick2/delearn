@@ -1,6 +1,7 @@
 services:
   frontend:
     build: ./frontend
+    container_name: frontend
     depends_on:
       - backend
     volumes:
@@ -8,6 +9,7 @@ services:
 
   backend:
     build: ./backend
+    container_name: backend
     ports:
       - '3000'
     depends_on:
@@ -49,6 +51,7 @@ services:
       - backend
     volumes:
       - ./docker/app.conf:/etc/nginx/conf.d/app.conf
+      - ./docker/frontend:/usr/share/nginx/html
     restart: always
 
 volumes:
