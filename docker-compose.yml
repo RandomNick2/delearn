@@ -4,9 +4,14 @@ services:
     container_name: frontend
     depends_on:
       - backend
+    restart: always
     volumes:
       - ./frontend:/docker/frontend
-
+    ports:
+      - '80:80'
+    networks:
+      - custom
+      
   backend:
     build: ./backend
     container_name: backend
@@ -40,19 +45,20 @@ services:
     restart: always
     networks:
       - custom
-      
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    ports:
-      - '80:80'
-    depends_on:
-      - frontend
-      - backend
-    volumes:
-      - ./docker/app.conf:/etc/nginx/conf.d/app.conf
-      - ./docker/frontend:/usr/share/nginx/html
-    restart: always
+
+  # nginx:
+    # image: nginx:alpine
+    # container_name: nginx
+    # ports:
+    #   - '80:80'
+    # depends_on:
+    #   - frontend
+    #   - backend
+    # volumes:
+    #   - ./frontend/nginx.conf:/etc/nginx/conf.d/app.conf
+    # restart: always
+    # networks:
+    #   - custom
 
 volumes:
   pgdata:
